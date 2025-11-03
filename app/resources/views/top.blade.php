@@ -2,7 +2,16 @@
 
 @section('content')
 <div class="container">
-    <h2>データ確認</h2>
+    <div class="d-flex justify-content-between">
+        <div class="p-2 flex-fill">
+            <form action="{{ route('user.profile', ['id' => $user]) }}" method="get">
+                <button type="submit" class="btn btn-primary">プロフィール</button>
+            </form>
+        </div>
+        <div class="p-2 flex-fill">
+            <h2>トップ画面</h2>
+        </div>
+    </div>
         <div class="mt-4">
 
           <form action="{{ route('sort') }}" method="GET">
@@ -28,11 +37,6 @@
                     </div>
                     
                 </div>
-        </form>
-        
-
-        <form action="{{ route('user.profile', ['id' => $user]) }}" method="get">
-            <button type="submit" class="btn btn-primary">プロフィール</button>
         </form>
     </div>
 

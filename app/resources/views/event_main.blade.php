@@ -2,33 +2,42 @@
 
 @section('content')
 <div class="container">
-    <h2>主催イベント一覧</h2>
+    <div class="d-flex justify-content-between">
+        <div class="p-2 flex-fill">
+            <button type="button" class="btn btn-secondary" onclick="history.back()">戻る</button>
+        </div>
+        <div class="p-2 flex-fill">
+            <h2>主催イベント一覧</h2>
+        </div>
+    </div>   
 
     <form action="{{ route('event.Create', ['id' => $user->id]) }}" method="get">
-            <button type="submit" class="btn btn-primary">作成する</button>
+            <button type="submit" class="btn btn-primary">イベントを作成する</button>
         </form>
 
-    <table class="table table-bordered mt-3">
-            <tr>
-                @foreach($events as $event)
-                <th scope="col">
-                 <a href="{{ route('event.detail', ['id' => $event['id']]) }}">#</a>
-            </th>
-                <th><img src="{{ asset('storage/profile/' . $event['image']) }}" alt="プロフィール画像" width="120"></th>
-                <th>{{ $event['id'] }}</th>
-                <th>{{ $event['user_id'] }}</th>
-                <th>{{ $event['capacity'] }}</th>
-                <th>{{ $event['title'] }}</th>
-                <th>{{ $user->id }}</th>
+    <div class="row mt-3 ml-2">
+        @foreach($events as $event)
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <img src="{{ asset('storage/profile/' . $event['image']) }}" class="card-img-top" style="height: 220px; object-fit: cover;">
 
-            <td>
-            <a href="{{ route('event.Edit', ['id' => $event['id']]) }}">
-            <button type="submit" class="btn btn-primary">編集</button></a>
-            </td>
-            </tr>
-
-                @endforeach
-    </table>
+                <div class="card-body">
+                    <h5 class="card-title"><a class= "text-decoration-none text-dark" href="{{ route('event.detail', ['id' => $event['id']]) }}">{{ $event['title'] }}</a></h5>
+                    @if($event['format'] == 0)
+                    <p class="card-text">イベント形式：zoom</p>
+                    @else
+                    <p class="card-text">イベント形式：YouTube</p>
+                    @endif
+                    <p class="card-text">日程：{{ $event['date'] }}</p>
+                    <div class="d-flex">
+                        <a href="{{ route('event.detail', ['id' => $event['id']]) }}" class="btn btn-primary d-grid w-75">イベント詳細</a>
+                        <a href="{{ route('event.Edit', ['id' => $event['id']]) }}" class="btn btn-primary d-grid w-25 ml-2">編集</a>
+                    </div>
+                </div>                    
+            </div>
+        </div>
+        @endforeach
+    </div>
 
 
 </div>

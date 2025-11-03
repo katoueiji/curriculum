@@ -14,8 +14,6 @@ class UserController extends Controller
     public function profileEditform($userId) {
         $user = User::findOrFail($userId);
         $date = $user->userDate;
-        $prevUrl = url()->previous();
-        session(['profile_url' => $prevUrl]);
 
         if ($user->id !== auth()->id()) {
         abort(403);
@@ -30,16 +28,14 @@ class UserController extends Controller
     public function profileEdit(profileEdit $request) {
         $user = Auth::user();
         $date = $user->userDate ?? $user->userDate()->create([]);
-        $url = session('profile_url');
 
-        if (!empty($request->file)) {
+        if ($request->hasFile('image')) {
             $file = $request->file('image');
             $file_name = $file->getClientOriginalName();
             $file->storeAs('public/profile', $file_name);
 
             $date->image = $file_name;    
         }
-
 
         $user->name = $request->name;
         $user->email = $request->email;
@@ -48,7 +44,17 @@ class UserController extends Controller
         $user->save();
         $date->save();
 
-        return redirect($url);
+        $userId = Auth::id();
+        $date = $user->userDate;
+        $main = count($user->Event->where('user_id', '=', $userId));
+        $join = count($user->Event_user->map(fn($Eu) => $Eu->Event));
+
+        return redirect()->route('user.profile', [
+            'id' => $userId,
+            'date' => $date,
+            'main' => $main,
+            'join' => $join,
+        ]);
     }
 
     //退会・ログアウト画面

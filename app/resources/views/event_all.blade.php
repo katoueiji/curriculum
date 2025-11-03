@@ -2,29 +2,55 @@
 
 @section('content')
 <div class="container">
-    <h2>データ確認</h2>
+    <div class="d-flex justify-content-between">
+        <div class="p-2 flex-fill">
+            <button type="button" class="btn btn-secondary" onclick="history.back()">戻る</button>
+        </div>
+        <div class="p-2 flex-fill">
+            <h2>全イベント一覧</h2>
+        </div>
+    </div>   
 
-<table class="table table-bordered mt-3">
-    <tr>
-        @foreach($event as $events)
-        <th scope="col">
-        <form action="{{ route('event.detail', ['id' => $events['id']]) }}" method="get">
-            <button type="submit" class="btn btn-primary">詳細</button>
-        </form>
-            </th>
-                <th>{{ $events['id'] }}</th>
-                <td>{{ $events['capacity'] }}</td>
-                <td>{{ $events['title'] }}</td>
-                <td>{{ $events['image'] }}</td>
+    <div class="d-flex justify-content-between text-center fw-bold p-2">
+        <div class="col-md-2">
+            <h5>イベント名</h5>
+        </div>
+        <div class="col-md-2">
+            <h5>主催者名</h5>
+        </div>
+        <div class="col-md-2">
+            <h5>報告数</h5>
+        </div>
+        <div class="col-md-2">
+            <h5>操作</h5>
+        </div>
+    </div>
+    @foreach($event as $events)
+    <div class="d-flex justify-content-between align-items-center border p-2 mb-2" style="height: 70px;">
+        <div class="col-md-2 text-center">
+            <p class="m-0" >{{ $events->title }}</p>
+        </div>
 
-                <td>
-                <form action="{{ route('event.hidden', ['id' => $events['id']]) }}" method="get">
-                <button type="submit" class="btn btn-primary">非表示</button>
-                </form>
-                </td>
-            </tr>
+        <div class="col-md-2 text-center">
+            <p class="m-0">{{ $events->user->name }}</p>
+        </div>
 
-            @endforeach
+        <div class="col-md-2 text-center">
+            <p class="m-0">{{ count($events->reports) }}件</p>
+        </div>
 
-    </table>
-    @endsection
+        <div class="col-md-2 d-flex gap-1 align-items-center justify-content-center">
+            <form action="{{ route('event.hidden', ['id' => $events->id]) }}" method="get">
+                <button type="submit" class="btn btn-warning px-3">非表示</button>
+            </form>
+
+            <form action="{{ route('event.detail', ['id' => $events->id]) }}" method="get">
+                <button type="submit" class="btn btn-primary px-3">詳細</button>
+            </form>
+        </div>
+    </div>
+    @endforeach
+</div>
+
+
+@endsection

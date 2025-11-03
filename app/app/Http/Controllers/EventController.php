@@ -87,7 +87,7 @@ class EventController extends Controller
     public function eventDestroyform($eventId) {
         $event = Event::findOrFail($eventId);
 
-        if ($Event->user_id !== auth()->id()) {
+        if ($event->user_id !== auth()->id()) {
         abort(403);
         }
         

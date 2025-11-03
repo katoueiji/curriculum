@@ -2,31 +2,45 @@
 
 @section('content')
 <div class="container">
-    <h2>データ確認</h2>
-
-    @if($errors->any())
-    <div class="alert alert-danger">
-        @foreach($errors->all() as $message)
-        <li>{{ $message }}</li>
-        @endforeach
+    <div class="d-flex justify-content-between">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-secondary" onclick="history.back()">戻る</button>
+        </div>
+        <div class="col-md-2 card-body text-center">
+            <h2>プロフィール編集</h2>
+        </div>
     </div>
-    @endif
 
-    <div class="mt-4">
-        <form action="{{ route('profile.edit', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            
-            <label for='name'>名前</label>
-            <input type='text' class='form-control' name='name' value="{{ $user->name }}"/>
-            <label for='email'>メアド</label>
-            <input type='text' class='form-control' name='email' value="{{ $user->email }}"/>
-            <label for='comment'>コメント</label>
-            <input type='text' class='form-control' name='comment'value="{{ $date->comment ?? ''}}"/>
-            <label for='image'>プロフィール画像</label>
-            <input type="file" id="input" name="image" class="cursor_pointer">
-            <img src="{{ asset('storage/profile/' . $date->image) }}" alt="プロフィール画像" width="120">
-            <button type="submit" class="btn btn-primary">更新する</button>
-        </form>
-    </div>
+    <div class="container mt-5">
+    <form action="{{ route('profile.edit', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="col-md-6">
+                <label for="name">名前</label>
+                @error('name')<div class="text-danger">{{ $message }}</div>@enderror
+                <input type="text" class="form-control mb-2" name="name" value="{{ old('name', $user->name) }}">
+                
+                <label for="email">メールアドレス</label>
+                @error('email')<div class="text-danger">{{ $message }}</div>@enderror
+                <input type="text" class="form-control mb-2" name="email" value="{{ old('email', $user->email) }}">
+            </div>
+
+            <div class="col-md-6 d-flex flex-column align-items-center">
+                <img src="{{ asset('storage/profile/' . $date->image) }}" class="img-thumbnail mb-2 w-50" >
+                <input type="file" name="image">
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="comment">コメント</label>
+            <textarea type="text" class="form-control" name="comment" rows="3" value="{{ old('comment', $date->comment ?? '') }}"></textarea>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary px-5">更新</button>
+        </div>
+    </form>
+</div>
 </div>
 @endsection

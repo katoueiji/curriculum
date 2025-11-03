@@ -17,9 +17,11 @@ class AdminController extends Controller
     //ユーザー利用停止
     public function userHiddenform($userId) {
         $user = User::find($userId);
+        $date = $user->userDate;
 
         return view('user_hidden', [
             'user' => $user,
+            'date' => $date,
         ]);
     }
 
@@ -36,9 +38,12 @@ class AdminController extends Controller
     //ユーザー利用停止解除
     public function userActiveform($userId) {
         $user = User::find($userId);
+        $date = $user->userDate;
 
         return view('user_active', [
-            'user' => $user
+            'user' => $user,
+            'date' => $date,
+            
         ]);
     }
 
@@ -73,7 +78,7 @@ class AdminController extends Controller
 
     //全イベント一覧
     public function eventAll() {
-        $event = Event::withCount('Reports')->orderBy('reports_count', 'desc') ->get();
+        $event = Event::with('User')->withCount('Reports')->orderBy('reports_count', 'desc')->get();
 
         return view('event_all', [
             'event' => $event,
@@ -82,7 +87,7 @@ class AdminController extends Controller
 
     //全ユーザー一覧
     public function userAll() {
-        $user = User::all()->toArray();
+        $user = User::withCount(['Event_user', 'Event'])->get();
 
         return view('user_all', [
             'user' => $user,
@@ -91,7 +96,7 @@ class AdminController extends Controller
 
     //参加ユーザー一覧
     public function joinuser() {
-        $eventUsers = Event_user::with(['user', 'event'])->get();
+        $eventUsers = Event_user::with(['User', 'Event'])->get();
 
         return view('join_user', [
             'eu' => $eventUsers

@@ -2,57 +2,92 @@
 
 @section('content')
 <div class="container">
-    <h2>データ確認</h2>
+    @can('user-higher') {{-- 一般ユーザーに表示される --}}
+    <div class="d-flex justify-content-between">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-secondary" onclick="history.back()">戻る</button>
+        </div>
+        <div class="col-md-2 card-body text-center">
+            <h2>プロフィール</h2>
+        </div>
+        <div  class="col-md-2">
+            <form action="{{ route('user.edit', ['id' => $user->id]) }}" method="get">
+                <button type="submit" class="btn btn-primary">ログアウト・退会</button>
+            </form> 
+        </div>
+    </div>   
 
-    <table class="table table-bordered mt-3">
-            <tr>
-                <img src="{{ asset('storage/profile/' . $date->image) }}" alt="プロフィール画像" width="120">
-                <th>{{ $user->id }}</th>
-                <td>{{ $user->name }}</td>
-                <td>{{ $date->comment ?? '' }}</td>
-            </tr>
-
-            <tr>
-                <td>{{ $main }}</td>
-                <td>{{ $join }}</td>
-            </tr>
-            </table>
+    <div class="row align-items-start mt-5"> 
+        <div class="col-md-2 d-flex flex-column align-items-center ml-5">
+            <img src="{{ $date && $date->image ? asset('storage/profile/' . $date->image) : asset('storage/profile/default.png') }}"   class="img-thumbnail">
+        </div>
+        <div class="col-md-4 card-body">
+                <h4>{{ $user->name }}</h4>
+                <p class="mt-3">{!! nl2br(e($date->comment ?? '')) !!}</p>
+        </div>
+        <div class="col-md-2 card-body text-center mr-4">
+            <form action="{{ route('profile.edit', ['id' => $user->id]) }}" method="get">
+                <button type="submit" class="btn btn-primary w-50 fs-5">プロフィール編集</button>
+            </form>
+        </div>
+        <div class="text-center d-flex mt-5">
+            <div class="col-md-4 card-body">
+                <p>主催イベント数：{{ $main }}</p>
+                <form action="{{ route('event.main', ['id' => $user->id]) }}" method="get">
+                    <button type="submit" class="btn btn-primary w-50 fs-5">主催イベント一覧</button>
+                </form>
+            </div>
+            <div class="col-md-4 card-body">
+                <p>主催イベント数：{{ $join }}</p>
+                <form action="{{ route('user.join', ['id' => $user->id]) }}" method="get">
+                    <button type="submit" class="btn btn-primary w-50 fs-5">参加イベント一覧</button>
+                </form>
+            </div>
+            <div class="col-md-4 card-body">
+                <p>ブックマーク一覧</p>
+                <form action="{{ route('bookmark') }}" method="get">
+                    <button type="submit" class="btn btn-primary w-50 fs-5">ブックマーク一覧</button>
+                </form>
+            </div>
+        </div>
     </div>
-    @can('admin-higher') {{-- 管理者に表示される --}}
-
-    <div class="mt-4">
-        <form action="{{ route('user.all', ['id' => $user->id]) }}" method="get">
-            <button type="submit" class="btn btn-primary">戻る</button>
-        </form>
-
-    @if($user->is_active == 0)
-        <form action="{{ route('user.hidden', ['id' => $user->id]) }}" method="get">
-        <button type="submit" class="btn btn-primary">利用停止</button>
-        </form>
-    @else
-        <form action="{{ route('user.active', ['id' => $user->id]) }}" method="get">
-        <button type="submit" class="btn btn-primary">利用停止解除</button>
-        </form>
-    @endif
-
-
-
-    @elsecan('user-higher') {{-- 一般ユーザーに表示される --}}
-    <form action="{{ route('profile.edit', ['id' => $user->id]) }}" method="get">
-        <button type="submit" class="btn btn-primary">プロフィール編集</button>
-    </form>
-    <form action="{{ route('user.edit', ['id' => $user->id]) }}" method="get">
-        <button type="submit" class="btn btn-primary">ログアウト・退会</button>
-    </form>
-    <form action="{{ route('event.main', ['id' => $user->id]) }}" method="get">
-        <button type="submit" class="btn btn-primary">主催イベント一覧</button>
-    </form>
-    <form action="{{ route('user.join', ['id' => $user->id]) }}" method="get">
-        <button type="submit" class="btn btn-primary">参加イベント一覧</button>
-    </form>
-    <form action="{{ route('bookmark') }}" method="get">
-        <button type="submit" class="btn btn-primary">ブックマーク一覧</button>
-    </form>
-    @endcan
-
+    @elsecan('admin-higher') {{-- 管理者に表示される --}}
+    <div class="d-flex justify-content-between">
+        <div class="p-2 flex-fill">
+            <h5>戻る</h5>
+        </div>
+        <div class="p-2 flex-fill">
+            <h2>プロフィール</h2>
+        </div>
+    </div> 
+    <div class="row align-items-start mt-5"> 
+        <div class="col-md-2 d-flex flex-column align-items-center ml-5">
+            <img src="{{ asset('storage/profile/' . $date->image) }}"  class="img-thumbnail">
+        </div>
+        <div class="col-md-4 card-body">
+                <h4>{{ $user->name }}</h4>
+                <p>{!! nl2br(e($user->comment ?? '')) !!}</p>
+        </div>
+    </div>
+    <div class="row mt-3 justify-content-between text-center" style="height: 250px;"> 
+        <div class="col-md-6 card-body d-flex flex-column justify-content-center">
+            <form action="{{ route('user.all', ['id' => $user->id]) }}" method="get">
+                <button type="submit" class="btn btn-primary btn-lg w-50 fs-3 mt-4">戻る</button>
+            </form>
+        </div>
+        <div class="col-md-6 card-body d-flex flex-column justify-content-center">
+        @if($user->is_active == 0)
+            <form action="{{ route('user.hidden', ['id' => $user->id]) }}" method="get">
+            <button type="submit" class="btn btn-danger btn-lg w-50 fs-3 mt-4">利用停止</button>
+            </form>
+        @else
+            <form action="{{ route('user.active', ['id' => $user->id]) }}" method="get">
+            <button type="submit" class="btn btn-primary">利用停止解除</button>
+            </form>
+        @endif
+        </div>
+        @endcan
+        </div>
+    </div>
+</div>
 @endsection

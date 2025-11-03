@@ -8,12 +8,12 @@ class Event extends Model
 {
     public function User()
     {
-        return $this->belongsTo('App\User', 'id', 'user_id');
+        return $this->belongsTo('App\User', 'user_id', 'id');
     }
 
     public function Event_user()
     {
-        return $this->hasMany('App\Event_user', 'id', 'event_id');
+        return $this->hasMany('App\Event_user', 'event_id', 'id');
     }
 
         public function Reports()

@@ -2,28 +2,60 @@
 
 @section('content')
 <div class="container">
-    <h2>データ確認</h2>
+    <div class="d-flex justify-content-between">
+        <div class="p-2 flex-fill">
+            <button type="button" class="btn btn-secondary" onclick="history.back()">戻る</button>
+        </div>
+        <div class="p-2 flex-fill">
+            <h2>本当に削除しますか？</h2>
+        </div>
+    </div>  
 
-    <h2>本当に削除しますか？</h2>
+    <div class="row mt-3 align-items-start"> 
+        <div class="col-md-6 d-flex flex-column align-items-center">
+            <img src="{{ asset('storage/profile/' . $event['image']) }}" class="img-thumbnail img-fluid rounded">
+        </div>
 
-    <table class="table table-bordered mt-3">
-            <tr>
-                <td><img src="{{ asset('storage/profile/' . $event['image']) }}" width="120"></td>
-                <td>{{ $event->id }}</td>
-                <td>{{ $event->capacity }}</td>
-                <td>{{ $event->title }}</td>
-            </tr>
+    <div class="col-md-6 card-body">
+            <label class="fs-6">イベント名</label>
+                 <div class="border rounded">
+                    <h2 class="card-title ml-2">{{ $event->title }}</h2>
+                </div>
+            <label class="card-text mt-3 fs-6">イベント開催形式</label>
+                <div class="border rounded">
+                    @if($event->format == 0)
+                        <p class="card-text fs-5 ml-2">zoom</p>
+                    @else
+                        <p class="card-text fs-5 ml-2">YouTube</p>
+                    @endif
+                </div>
+            <label class="card-text mt-3 fs-6">日程と時間</label>
+                <div class="border rounded">
+                    <p class="card-text fs-5 ml-2">{{ \Carbon\Carbon::parse($event->date)->format('Y-m-d H:i') }}</p>
+                </div>
+            <label class="card-text mt-3 fs-6">定員数</label>
+                <div class="border rounded">
+                    <p class="card-text ml-2 fs-5">{{ $event->capacity }}人</p>
+                </div>
+            <label class="card-text mt-3 fs-6">紹介文</label>
+                <div class="border rounded">
+                    <p class="card-text fs-5 ml-2 ">{!! nl2br(e($event->comment)) !!}</p>
+                </div>
+        </div>
 
-    </table>
-
-    <div class="mt-4">
-        <form action="{{ route('event.Edit', ['id' => $event->id]) }}" method="get">
-            <button type="submit" class="btn btn-primary">キャンセル</button>
-        </form>
-        <form action="{{ route('event.Destroy', ['id' => $event->id]) }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-primary">削除する</button>
-        </form>
+        <div class="row mt-3 justify-content-between text-center" style="height: 250px;"> 
+            <div class="col-md-6 card-body d-flex flex-column justify-content-center">
+                <form action="{{ route('event.Edit', ['id' => $event->id]) }}" method="get">
+                    <button type="submit" class="btn btn-primary btn-lg w-50 fs-3 mt-4">キャンセル</button>
+                </form>
+            </div>
+            <div class="col-md-6 card-body d-flex flex-column justify-content-center">
+                <form action="{{ route('event.Destroy', ['id' => $event->id]) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-danger btn-lg w-50 fs-3 mt-4">削除する</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

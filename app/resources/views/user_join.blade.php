@@ -2,31 +2,38 @@
 
 @section('content')
 <div class="container">
-    <h2>参加イベント一覧</h2>
+    <div class="d-flex justify-content-between">
+        <div class="p-2 flex-fill">
+            <button type="button" class="btn btn-secondary" onclick="history.back()">戻る</button>
+        </div>
+        <div class="p-2 flex-fill">
+            <h2>参加イベント一覧</h2>
+        </div>
+    </div>   
 
-    <table class="table table-bordered mt-3">
-            <tr>
-                @foreach($events as $event)
-                @if($event)
-                <th scope="col">
-                 <a href="{{ route('event.detail', ['id' => $event['id']]) }}">#</a>
-                 
-            </th>
-                <td><img src="{{ asset('storage/profile/' . $event['image']) }}" width="120"></td>
-                <td>{{ $event['id'] }}</td>
-                <td>{{ $event['user_id'] }}</td>
-                <td>{{ $event['capacity'] }}</td>
-                <td>{{ $event['title'] }}</td>
-                <td>{{ $user->id }}</td>
+    <div class="row mt-3 ml-2">
+        @foreach($events as $event)
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <img src="{{ asset('storage/profile/' . $event['image']) }}" class="card-img-top" style="height: 220px; object-fit: cover;">
 
-            <td>
-            <a href="{{ route('user.cancel', ['id' => $event['id']]) }}">
-            <button type="submit" class="btn btn-primary">取り消し</button></a>
-            </td>
-            </tr>
-                @endif
-                @endforeach
-    </table>
+                <div class="card-body">
+                    <h5 class="card-title"><a class= "text-decoration-none text-dark" href="{{ route('event.detail', ['id' => $event['id']]) }}">{{ $event['title'] }}</a></h5>
+                    @if($event['format'] == 0)
+                    <p class="card-text">イベント形式：zoom</p>
+                    @else
+                    <p class="card-text">イベント形式：YouTube</p>
+                    @endif
+                    <p class="card-text">日程：{{ $event['date'] }}</p>
+                    <div class="d-flex">
+                        <a href="{{ route('event.detail', ['id' => $event['id']]) }}" class="btn btn-primary d-grid w-50">イベント詳細</a>
+                        <a href="{{ route('user.cancel', ['id' => $user['id']]) }}" class="btn btn-primary d-grid w-50 ml-2">参加取り消し</a>
+                    </div>
+                </div>                    
+            </div>
+        </div>
+        @endforeach
+    </div>
 
 
 </div>
