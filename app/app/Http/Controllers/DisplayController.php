@@ -13,12 +13,11 @@ class DisplayController extends Controller
 {
     //トップ画面
     public function index() {
-        $event = new Event;
-        $all = Event::where('is_visible', 0)->get(); 
+        $events = Event::where('is_visible', 0)->paginate(6);
         $user = Auth::user();
 
         return view('top', [
-            'event' => $all,
+            'events' => $events,
             'user' => $user,
         ]);
     }
@@ -57,6 +56,7 @@ class DisplayController extends Controller
         $word = $request->input('word');
         $format = $request->input('format');
         $date = $request->input('date');
+        $type = $request->input('type');
 
         if (!empty($word)) {
             $table->where('title', 'LIKE', "%{$word}%")
@@ -69,6 +69,10 @@ class DisplayController extends Controller
 
         if (!empty($date)) {
             $table->where('date', '>=', $date);
+        }
+
+        if ($type !== null && $type !== '') {
+            $table->where('type', (int)$type);
         }
 
         $table->where('is_visible', '=', 0);

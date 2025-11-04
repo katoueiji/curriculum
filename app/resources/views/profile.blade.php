@@ -12,7 +12,7 @@
         </div>
         <div  class="col-md-2">
             <form action="{{ route('user.edit', ['id' => $user->id]) }}" method="get">
-                <button type="submit" class="btn btn-primary">ログアウト・退会</button>
+                <button type="submit" class="btn btn-dark">ログアウト・退会</button>
             </form> 
         </div>
     </div>   
@@ -34,7 +34,7 @@
             <div class="col-md-4 card-body">
                 <p>主催イベント数：{{ $main }}</p>
                 <form action="{{ route('event.main', ['id' => $user->id]) }}" method="get">
-                    <button type="submit" class="btn btn-primary w-50 fs-5">主催イベント一覧</button>
+                    <button type="submit" class="btn btn-warning w-50 fs-5">主催イベント一覧</button>
                 </form>
             </div>
             <div class="col-md-4 card-body">
@@ -46,7 +46,7 @@
             <div class="col-md-4 card-body">
                 <p>ブックマーク一覧</p>
                 <form action="{{ route('bookmark') }}" method="get">
-                    <button type="submit" class="btn btn-primary w-50 fs-5">ブックマーク一覧</button>
+                    <button type="submit" class="btn btn-success w-50 fs-5">ブックマーク一覧</button>
                 </form>
             </div>
         </div>

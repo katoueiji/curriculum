@@ -33,7 +33,7 @@ class EditEvent extends FormRequest
         return [
             'capacity' => 'required|integer',
             'title' => 'required|max:100',
-            'comment' => 'required',
+            'comment' => 'required|max:300',
             'date' => 'required|date',
             'format' => 'required',
             'type' => 'required',

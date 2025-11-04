@@ -69,4 +69,8 @@ class User extends Authenticatable
     public function is_Bookmark($eventId) {
         return $this->Bookmark()->where('event_id', $eventId)->exists();
     }
+    public function Events()
+    {
+        return $this->belongsToMany(Event::class, 'event_users', 'user_id', 'event_id');
+    }
 }

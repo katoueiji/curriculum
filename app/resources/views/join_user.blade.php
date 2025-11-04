@@ -11,14 +11,20 @@
         </div>
     </div>
 
-    <div class="row text-center fw-bold border-bottom py-2 mb-2">
-        <div class="col-md-4">ユーザー名</div>
-        <div class="col-md-4">メールアドレス</div>
-        <div class="col-md-4">イベント名</div>
+    <div class="d-flex justify-content-between text-center fw-bold p-2">
+        <div class="col-md-4">
+            <h5>ユーザー名</h5>
+        </div>
+        <div class="col-md-4">
+            <h5>メールアドレス</h5>
+        </div>
+        <div class="col-md-4">
+            <h5>イベント名</h5>
+        </div>
     </div>
 
     @foreach($eu as $eus)
-    <div class="row align-items-center border py-2 mb-2 text-center">
+    <div class="row align-items-center border p-2 mb-2 text-center" style="height: 70px;">
         <div class="col-md-4">
             {{ $eus->user->name }}
         </div>
@@ -30,5 +36,8 @@
         </div>
     </div>
     @endforeach
+    <div class="mt-4 d-flex justify-content-end">
+    {{ $eu->links() }}
+    </div>
 </div>
 @endsection

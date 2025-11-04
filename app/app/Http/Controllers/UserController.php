@@ -82,7 +82,7 @@ class UserController extends Controller
 
     //ブックマーク一覧
     public function bookmark_event() {
-        $events = \Auth::user()->bookmark_event()->orderBy('created_at', 'desc')->paginate(20);
+        $events = \Auth::user()->bookmark_event()->orderBy('created_at', 'desc')->paginate(6);
 
         return view('bookmark', [
             'event' => $events,
@@ -92,7 +92,7 @@ class UserController extends Controller
     //主催イベント一覧
     public function eventMainform(int $userID) {
         $user = User::findOrFail($userID);
-        $events = $user->Event->where('user_id', '=', $userID)->toArray();
+        $events = $user->Event()->where('user_id', '=', $userID)->paginate(6);
 
         return view('event_main', [
             'user' => $user,
@@ -103,7 +103,7 @@ class UserController extends Controller
     //参加イベント一覧
     public function userJoinform(int $userID) {
         $user = User::findOrFail($userID);
-        $events = $user->Event_user->map(fn($Eu) => $Eu->Event)->toArray();
+        $events = $user->Events()->paginate(6);
     
         return view('user_join', [
             'user' => $user,

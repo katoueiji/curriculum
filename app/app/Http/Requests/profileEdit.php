@@ -31,7 +31,8 @@ class profileEdit extends FormRequest
     {
         return [
             'name' => 'required|max:10',
-            'email' => 'required|string|max:255|email:rfc,dns'
+            'email' => 'required|string|max:255|email:rfc,dns',
+            'comment' => 'max:80',
         ];
     }
 }

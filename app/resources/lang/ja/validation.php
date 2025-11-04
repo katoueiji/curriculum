@@ -79,7 +79,7 @@ return [
     'max' => [
         'numeric' => 'The :attribute may not be greater than :max.',
         'file' => 'The :attribute may not be greater than :max kilobytes.',
-        'string' => 'The :attribute may not be greater than :max characters.',
+        'string' => ':attributeは:max文字以内にしてください.',
         'array' => 'The :attribute may not have more than :max items.',
     ],
     'mimes' => 'The :attribute must be a file of type: :values.',
@@ -87,13 +87,13 @@ return [
     'min' => [
         'numeric' => 'The :attribute must be at least :min.',
         'file' => 'The :attribute must be at least :min kilobytes.',
-        'string' => 'The :attribute must be at least :min characters.',
+        'string' =>  ':attributeは:min文字以上で入力してください。',
         'array' => 'The :attribute must have at least :min items.',
     ],
     'not_in' => 'The selected :attribute is invalid.',
     'not_regex' => 'The :attribute format is invalid.',
     'numeric' => 'The :attribute must be a number.',
-    'password' => 'パスワードは間違っています.',
+    'password' => ':attributeは間違っています.',
     'present' => 'The :attribute field must be present.',
     'regex' => 'The :attribute format is invalid.',
     'required' => ':attributeは必須項目です.',
@@ -152,10 +152,11 @@ return [
         'email' => 'メールアドレス',
         'comment' => 'コメント',
         'image' => '画像',
-        'title' => 'タイトル',
+        'title' => 'イベント名',
         'capacity' => '定員人数',
         'format' => 'イベント形式',
-        'type' => 'イベントの種類'
+        'type' => 'イベントの種類',
+        'password' => 'パスワード',
     ],
 
 ];

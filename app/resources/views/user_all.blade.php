@@ -44,7 +44,7 @@
 
                 @if($users['is_active'] == 0)
                     <form action="{{ route('user.hidden', ['id' => $users['id']]) }}" method="get">
-                        <button type="submit" class="btn btn-primary warning">利用停止</button>
+                        <button type="submit" class="btn btn-danger warning">利用停止</button>
                     </form>
                 @else
                     <form action="{{ route('user.active', ['id' => $users['id']]) }}" method="get">
@@ -53,8 +53,9 @@
                  @endif
             </div>
         </div>
-
         @endforeach
-
-    </table>
+    <div class="mt-4 d-flex justify-content-end">
+    {{ $user->links() }}
+    </div>
+</div>
     @endsection

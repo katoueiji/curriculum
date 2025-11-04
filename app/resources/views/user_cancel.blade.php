@@ -10,11 +10,21 @@
             <h2>本当にキャンセルしますか？</h2>
         </div>
     </div> 
-    <div class="row align-items-start mt-5"> 
-        <div class="col-md-2 d-flex flex-column align-items-center ml-5">
-            <img src="{{ asset('storage/profile/' . $event->image) }}"  class="img-thumbnail">
+    <div class="row mt-3 align-items-start"> 
+        <div class="col-md-6 d-flex flex-column align-items-center">
+            <img src="{{ asset('storage/profile/' . $event->image) }}"  class="img-thumbnail img-fluid rounded">
+
+           <div class="mt-3 d-flex w-100 gap-3">
+                <form action="{{ route('user.join', ['id' => $user->id]) }}" method="get" class="flex-fill">
+                    <button type="submit" class="btn btn-primary w-100 fs-5">戻る</button>
+                </form>
+
+                <form action="{{ route('user.cancel', ['id' => $event->id]) }}" method="POST" class="flex-fill">
+                    @csrf
+                    <button type="submit" class="btn btn-danger w-100 fs-5">参加取消</button>
+                </form>
+            </div>
         </div>
-    </div>
 
         <div class="col-md-6 card-body">
             <label class="fs-6">イベント名</label>
@@ -41,20 +51,6 @@
                 <div class="border rounded">
                     <p class="card-text fs-5 ml-2 ">{!! nl2br(e($event->comment)) !!}</p>
                 </div>
-        </div>
-
-        <div class="row mt-3 justify-content-between text-center" style="height: 250px;">
-            <div class="col-md-6 card-body d-flex flex-column justify-content-center">
-                <form action="{{ route('user.join', ['id' => $user->id]) }}" method="get">
-                    <button type="submit" class="btn btn-primary">戻る</button>
-                </form>
-            </div>
-            <div class="col-md-6 card-body d-flex flex-column justify-content-center">
-                <form action="{{ route('user.cancel', ['id' => $event->id]) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-primary">キャンセル</button>
-                </form>
-            </div>
         </div>
     </div>
 </div>

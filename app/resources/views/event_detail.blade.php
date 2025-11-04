@@ -18,11 +18,11 @@
             @can('admin-higher') {{-- 管理者に表示される --}}
             <div class="mt-3 d-flex justify-content-around gap-3 w-100">
                 <form action="{{ route('event.all') }}" class="flex-fill ml-2" method="get">
-                    <button type="submit" class="btn btn-primary">戻る</button>
+                    <button type="submit" class="btn btn-primary w-100 fs-5">戻る</button>
                 </form>
                 
                 <form action="{{ route('event.hidden', ['id' => $event->id]) }}" class="flex-fill mr-3" method="get">
-                    <button type="submit" class="btn btn-primary">非表示にする</button>
+                    <button type="submit" class="btn btn-dangerw-100 fs-5">非表示にする</button>
                 </form>
             </div>
             @elsecan('user-higher') {{-- 一般ユーザーに表示される --}}

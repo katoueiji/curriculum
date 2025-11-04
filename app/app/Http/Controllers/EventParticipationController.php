@@ -50,9 +50,9 @@ class EventParticipationController extends Controller
     }
 
     // イベント参加取り消しフォーム
-    public function userCancelform($eventId) {
+    public function userCancelform(int $id) {
         $user = Auth::user();
-        $event = Event::findOrFail($eventId);
+        $event = Event::findOrFail($id);
 
         return view('user_cancel', [
             'user' => $user,

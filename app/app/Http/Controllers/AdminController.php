@@ -78,7 +78,7 @@ class AdminController extends Controller
 
     //全イベント一覧
     public function eventAll() {
-        $event = Event::with('User')->withCount('Reports')->orderBy('reports_count', 'desc')->get();
+        $event = Event::with('User')->withCount('Reports')->orderBy('reports_count', 'desc')->paginate(6);
 
         return view('event_all', [
             'event' => $event,
@@ -87,7 +87,7 @@ class AdminController extends Controller
 
     //全ユーザー一覧
     public function userAll() {
-        $user = User::withCount(['Event_user', 'Event'])->get();
+        $user = User::withCount(['Event_user', 'Event'])->paginate(6);
 
         return view('user_all', [
             'user' => $user,
@@ -96,7 +96,7 @@ class AdminController extends Controller
 
     //参加ユーザー一覧
     public function joinuser() {
-        $eventUsers = Event_user::with(['User', 'Event'])->get();
+        $eventUsers = Event_user::with(['User', 'Event'])->paginate(6);
 
         return view('join_user', [
             'eu' => $eventUsers

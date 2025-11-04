@@ -33,28 +33,50 @@
                         <button type="submit" class="btn btn-primary">検索</button>
                     </div>
                     <div class="col-sm-4">
-                        <input class="form-control mt-3" type="date" name="date" value="{{  request('date') }}">
+                        <input class="form-control mt-3" type="datetime-local" name="date" value="{{  request('date') }}">
                     </div>
-                    
+                    <div class="col-sm-4">
+                        <select name="type" class="form-control mt-3">
+                            <option value="">イベントの種類を選択</option>
+                            <option value="0" {{ request('type') == "0" ? 'selected' : '' }}>セミナー</option>
+                            <option value="1"  {{ request('type') == "1" ? 'selected' : '' }}>勉強会</option>
+                            <option value="2"  {{ request('type') == "1" ? 'selected' : '' }}>説明会</option>
+                            <option value="3"  {{ request('type') == "1" ? 'selected' : '' }}>講演会</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                    <button type="reset" class="btn btn-secondary mt-3">リセット</button>
+                    </div>
                 </div>
         </form>
     </div>
 
     <div class="row mt-3">
-        @foreach($event as $events)
+        @foreach ($events as $event)
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="card">
-                <img src="{{ asset('storage/profile/' . $events['image']) }}" class="card-img-top" style="height: 220px; object-fit: cover;">
+                <div class=m-2>
+                    @if($event->type == 0)
+                    <span class="card-text bg-primary text-white rounded-4 pl-2 pr-2">セミナー</span>
+                    @elseif($event->type == 1)
+                    <span class="card-text bg-success text-white rounded-4 pl-2 pr-2">勉強会</span>
+                    @elseif($event->type == 2)
+                    <span class="card-text bg-warning text-white rounded-4 pl-2 pr-2">説明会</span>
+                    @elseif($event->type == 3)
+                    <span class="card-text bg-secondary text-white rounded-4 pl-2 pr-2">講演会</span>
+                @endif
+                </div>
+                <img src="{{ asset('storage/profile/' . $event['image']) }}" class="card-img-top" style="height: 220px; object-fit: cover;">
                 <div>
-                    @if (!Auth::user()->is_Bookmark($events->id))
-                    <form action="{{ route('bookmark.store', $events->id) }}" method="post" class="d-inline">
+                    @if (!Auth::user()->is_Bookmark($event->id))
+                    <form action="{{ route('bookmark.store', $event->id) }}" method="post" class="d-inline">
                         @csrf
                            <button class="btn p-0 border-0 bg-transparent hover-opacity mt-2 ml-3">
                                 <i class="bi bi-bookmark text-secondary" style="font-size: 1.3rem;"></i>
                             </button>
                     </form>
                     @else
-                    <form action="{{ route('bookmark.destroy', $events->id) }}" method="post" class="d-inline ">
+                    <form action="{{ route('bookmark.destroy', $event->id) }}" method="post" class="d-inline ">
                         @csrf
                         @method('delete')
                         <button class="btn p-0 border-0 bg-transparent hover-opacity mt-2 ml-3">
@@ -65,21 +87,22 @@
                 </div>
 
                 <div class="card-body">
-                    <h5 class="card-title"><a class= "text-decoration-none text-dark" href="{{ route('event.detail', ['id' => $events->id]) }}">{{ $events->title }}</a></h5>
-                    @if($events->format == 0)
+                    <h5 class="card-title"><a class= "text-decoration-none text-dark" href="{{ route('event.detail', ['id' => $event->id]) }}">{{ $event->title }}</a></h5>
+                    @if($event->format == 0)
                     <p class="card-text">イベント形式：zoom</p>
                     @else
                     <p class="card-text">イベント形式：YouTube</p>
                     @endif
-                    <p class="card-text">日程：{{ $events->date }}</p>
+                    <p class="card-text">日程：{{ $event->date }}</p>
 
-                    <a href="{{ route('event.detail', ['id' => $events->id]) }}" class="btn btn-primary d-grid gap-2">イベント詳細</a>
-
-
+                    <a href="{{ route('event.detail', ['id' => $event->id]) }}" class="btn btn-primary d-grid gap-2">イベント詳細</a>
                 </div>
             </div>
         </div>
         @endforeach
+        <div class="mt-4 d-flex justify-content-end">
+            {{ $events->links() }}
+        </div>
     </div>
 </div>
 @endsection

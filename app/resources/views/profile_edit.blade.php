@@ -27,7 +27,7 @@
             </div>
 
             <div class="col-md-6 d-flex flex-column align-items-center">
-                <img src="{{ asset('storage/profile/' . $date->image) }}" class="img-thumbnail mb-2 w-50" >
+                <img src="{{ $date && $date->image ? asset('storage/profile/' . $date->image) : asset('storage/profile/default.png') }}"   class="img-thumbnail">
                 <input type="file" name="image">
             </div>
         </div>

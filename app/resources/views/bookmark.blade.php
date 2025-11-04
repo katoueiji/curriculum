@@ -51,6 +51,9 @@
             </div>
         </div>
         @endforeach
+    <div class="mt-4 d-flex justify-content-end">
+        {{ $event->links() }}
+    </div>
     </div>
 </div>
 

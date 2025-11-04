@@ -27,10 +27,11 @@ class CreateEvent extends FormRequest
             'capacity' => 'required|integer',
             'title' => 'required|max:100',
             'image' => 'required',
-            'comment' => 'required',
+            'comment' => 'required|max:300',
             'date' => 'required|date',
             'format' => 'required',
             'type' => 'required',
+
         ];
     }
 }

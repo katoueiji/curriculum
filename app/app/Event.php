@@ -24,4 +24,9 @@ class Event extends Model
     public function bookmark() {
         return $this->hasMany(bookmark::class);
     }
+
+    public function Users()
+    {
+        return $this->belongsToMany(User::class, 'event_users', 'event_id', 'user_id');
+    }
 }

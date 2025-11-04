@@ -27,12 +27,15 @@
                     <p class="card-text">日程：{{ $event['date'] }}</p>
                     <div class="d-flex">
                         <a href="{{ route('event.detail', ['id' => $event['id']]) }}" class="btn btn-primary d-grid w-50">イベント詳細</a>
-                        <a href="{{ route('user.cancel', ['id' => $user['id']]) }}" class="btn btn-primary d-grid w-50 ml-2">参加取り消し</a>
+                        <a href="{{ route('user.cancel', ['id' => $event['id']]) }}" class="btn btn-danger d-grid w-50 ml-2">参加取り消し</a>
                     </div>
                 </div>                    
             </div>
         </div>
         @endforeach
+        <div class="mt-4 d-flex justify-content-end">
+        {{ $events->links() }}
+        </div>
     </div>
 
 
