@@ -64,7 +64,7 @@ class EventController extends Controller
         $record = $event->findOrFail($id);
         $url = session('profile_url');
 
-        if(!empty($request->file)) {
+        if($request->hasFile('image')) {
             $file = $request->file('image');
             $file_name = $file->getClientOriginalName();
             $file->storeAs('public/profile', $file_name);  
