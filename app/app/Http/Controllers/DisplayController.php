@@ -80,7 +80,7 @@ class DisplayController extends Controller
         $sortevent = $table->get();
 
         return view('top', [
-            'event' => $sortevent,
+            'events' => $sortevent,
             'user' => $user,
         ]);
 

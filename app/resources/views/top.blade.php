@@ -68,21 +68,16 @@
                 </div>
                 <img src="{{ asset('storage/profile/' . $event['image']) }}" class="card-img-top" style="height: 220px; object-fit: cover;">
                 <div>
-                    @if (!Auth::user()->is_Bookmark($event->id))
-                    <form action="{{ route('bookmark.store', $event->id) }}" method="post" class="d-inline">
-                        @csrf
-                           <button class="btn p-0 border-0 bg-transparent hover-opacity mt-2 ml-3">
+                    @if(auth()->user())
+                        @if(isset($product->bkm_products[1]))
+                            <button class="send btn p-0 border-0 bg-transparent hover-opacity mt-2 ml-3" event_id="{{ $event->id }}" bkm_product="1">
                                 <i class="bi bi-bookmark text-secondary" style="font-size: 1.3rem;"></i>
                             </button>
-                    </form>
-                    @else
-                    <form action="{{ route('bookmark.destroy', $event->id) }}" method="post" class="d-inline ">
-                        @csrf
-                        @method('delete')
-                        <button class="btn p-0 border-0 bg-transparent hover-opacity mt-2 ml-3">
-                            <i class="bi bi-bookmark-fill text-primary" style="font-size: 1.3rem;"></i>
-                        </button>
-                    </form>
+                        @else
+                            <button class="send btn p-0 border-0 bg-transparent hover-opacity mt-2 ml-3" event_id="{{ $event->id }}" bkm_product="0">
+                                <i class="bi bi-bookmark-fill text-primary" style="font-size: 1.3rem;"></i>
+                            </button>
+                        @endif
                     @endif
                 </div>
 
