@@ -20,10 +20,15 @@
                 <form action="{{ route('event.all') }}" class="flex-fill ml-2" method="get">
                     <button type="submit" class="btn btn-primary w-100 fs-5">戻る</button>
                 </form>
-                
+            @if($event->is_visible == 0)
                 <form action="{{ route('event.hidden', ['id' => $event->id]) }}" class="flex-fill mr-3" method="get">
-                    <button type="submit" class="btn btn-dangerw-100 fs-5">非表示にする</button>
+                    <button type="submit" class="btn btn-danger w-100 fs-5">非表示</button>
                 </form>
+            @else
+                <form action="{{ route('event.active', ['id' => $event->id]) }}" class="flex-fill mr-3" method="get">
+                    <button type="submit" class="btn btn-primary w-100 fs-5">再表示</button>
+                </form>
+            @endif
             </div>
             @elsecan('user-higher') {{-- 一般ユーザーに表示される --}}
             <div class="mt-3 d-flex justify-content-around gap-3 w-100">

@@ -76,9 +76,28 @@ class AdminController extends Controller
         return redirect('/event');
     }
 
+    //イベント再表示
+    public function eventActiveform($eventId) {
+        $event = Event::find($eventId);
+        
+        return view('event_active', [
+            'event' => $event,
+        ]);
+    }
+
+    public function eventActive(int $id, Request $request) {
+        $event = Event::find($id);
+        
+        $event->is_visible = 0;
+
+        $event->save();
+        
+        return redirect('/event');
+    }
+
     //全イベント一覧
     public function eventAll() {
-        $event = Event::with('User')->withCount('Reports')->orderBy('reports_count', 'desc')->paginate(6);
+        $event = Event::with('User')->withCount('Reports')->orderBy('reports_count', 'desc')->orderBy('id', 'asc')->paginate(6);
 
         return view('event_all', [
             'event' => $event,

@@ -17,22 +17,13 @@
             <div class="card">
                 <img src="{{ asset('storage/profile/' . $events['image']) }}" class="card-img-top" style="height: 220px; object-fit: cover;">
                 <div>
-                    @if (!Auth::user()->is_Bookmark($events->id))
-                    <form action="{{ route('bookmark.store', $events->id) }}" method="post" class="d-inline">
-                        @csrf
-                           <button class="btn p-0 border-0 bg-transparent hover-opacity mt-2 ml-3">
-                                <i class="bi bi-bookmark text-secondary" style="font-size: 1.3rem;"></i>
-                            </button>
-                    </form>
-                    @else
-                    <form action="{{ route('bookmark.destroy', $events->id) }}" method="post" class="d-inline ">
-                        @csrf
-                        @method('delete')
-                        <button class="btn p-0 border-0 bg-transparent hover-opacity mt-2 ml-3">
-                            <i class="bi bi-bookmark-fill text-primary" style="font-size: 1.3rem;"></i>
-                        </button>
-                    </form>
-                    @endif
+                    <button class="bookmark-btn send btn border-0 bg-transparent"  data-event-id="{{ $events->id }}" data-bookmark="{{ $bookmark->contains($events->id) ? 1 : 0 }}" data-url="{{ route('bkm_product') }}"> 
+                            @if($bookmark->contains($events->id))
+                                <i class="bi bi-bookmark text-secondary" style="font-size:1.3rem;"></i>
+                            @else
+                                <i class="bi bi-bookmark-fill text-primary" style="font-size:1.3rem;"></i>
+                            @endif
+                    </button>
                 </div>
 
                 <div class="card-body">

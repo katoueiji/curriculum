@@ -73,7 +73,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/user/{id}/join/cancel', [EventParticipationController::class, 'userCancelform'])->name('user.cancel');
         Route::post('/user/{id}/join/cancel', [EventParticipationController::class, 'userCancel']);
 
-        Route::post('/bkm_product', [BookmarkController::class, 'bkm_product'])->name('bkm_product');
+        Route::post('/bkm_product', [BookmarkController::class, 'toggle'])->name('bkm_product');
         Route::get('/bookmark', [UserController::class, 'bookmark_event'])->name('bookmark');
 
     });
@@ -87,6 +87,9 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/event/{id}/hidden', [AdminController::class, 'eventHiddenform'])->name('event.hidden');
         Route::post('/event/{id}/hidden', [AdminController::class, 'eventHidden']);
+
+        Route::get('/event/{id}/active', [AdminController::class, 'eventActiveform'])->name('event.active');
+        Route::post('/event/{id}/active', [AdminController::class, 'eventActive']);
 
         Route::get('/user/{id}/active', [AdminController::class, 'userActiveform'])->name('user.active');
         Route::post('/user/{id}/active', [AdminController::class, 'userActive']);

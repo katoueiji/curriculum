@@ -28,7 +28,7 @@
         </div>
         <div class="col-md-6 card-body d-flex flex-column justify-content-center" style="min-height: 400px;">
             <h3 class="text-center">このイベントを報告しますか？</h3>
-            <form action="{{ route('event.join', ['id' => $event->id]) }}" method="POST">
+            <form action="{{ route('event.report', ['id' => $event->id]) }}" method="POST">
                 @csrf
                 <label class="card-text mt-5 fs-6">報告コメント</label>
                     @error('comment')

@@ -18,7 +18,7 @@ class Event extends Model
 
         public function Reports()
     {
-        return $this->hasMany('App\Reports', 'event_id', 'id');
+        return $this->hasMany(Reports::class);
     }
 
     public function bookmark() {

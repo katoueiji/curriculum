@@ -38,16 +38,20 @@
         <div class="col-md-2 text-center">
             <p class="m-0">{{ count($events->reports) }}件</p>
         </div>
-
-        <div class="col-md-2 d-flex gap-1 align-items-center justify-content-center">
-            <form action="{{ route('event.hidden', ['id' => $events->id]) }}" method="get">
-                <button type="submit" class="btn btn-warning px-3">非表示</button>
-            </form>
-
-            <form action="{{ route('event.detail', ['id' => $events->id]) }}" method="get">
-                <button type="submit" class="btn btn-primary px-3">詳細</button>
-            </form>
-        </div>
+            <div class="col-md-2 d-flex gap-1 align-items-center justify-content-center">
+            @if($events->is_visible == 0)
+                <form action="{{ route('event.hidden', ['id' => $events->id]) }}" method="get">
+                    <button type="submit" class="btn btn-warning px-3">非表示</button>
+                </form>
+            @else
+                <form action="{{ route('event.active', ['id' => $events->id]) }}" method="get">
+                    <button type="submit" class="btn btn-primary px-3">再表示</button>
+                </form>
+            @endif
+                <form action="{{ route('event.detail', ['id' => $events->id]) }}" method="get">
+                    <button type="submit" class="btn btn-primary px-3">詳細</button>
+                </form>
+            </div>
     </div>
     @endforeach
     <div class="mt-4 d-flex justify-content-end">

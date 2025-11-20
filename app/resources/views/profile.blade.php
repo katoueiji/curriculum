@@ -38,7 +38,7 @@
                 </form>
             </div>
             <div class="col-md-4 card-body">
-                <p>主催イベント数：{{ $join }}</p>
+                <p>参加イベント数：{{ $join }}</p>
                 <form action="{{ route('user.join', ['id' => $user->id]) }}" method="get">
                     <button type="submit" class="btn btn-primary w-50 fs-5">参加イベント一覧</button>
                 </form>
@@ -54,7 +54,7 @@
     @elsecan('admin-higher') {{-- 管理者に表示される --}}
     <div class="d-flex justify-content-between">
         <div class="p-2 flex-fill">
-            <h5>戻る</h5>
+            <button type="button" class="btn btn-secondary" onclick="history.back()">戻る</button>
         </div>
         <div class="p-2 flex-fill">
             <h2>プロフィール</h2>

@@ -1,8 +1,4 @@
-console.log('JS loaded'); // ← これが出るか確認
 
-$(document).on('click', '.send', function() {
-    console.log('clicked'); // ←クリックしたら出るか確認
-});
 $(function ()
 {
     $('.send').on('click', function ()

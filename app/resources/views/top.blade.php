@@ -68,17 +68,13 @@
                 </div>
                 <img src="{{ asset('storage/profile/' . $event['image']) }}" class="card-img-top" style="height: 220px; object-fit: cover;">
                 <div>
-                    @if(auth()->user())
-                        @if(isset($product->bkm_products[1]))
-                            <button class="send btn p-0 border-0 bg-transparent hover-opacity mt-2 ml-3" event_id="{{ $event->id }}" bkm_product="1">
-                                <i class="bi bi-bookmark text-secondary" style="font-size: 1.3rem;"></i>
-                            </button>
-                        @else
-                            <button class="send btn p-0 border-0 bg-transparent hover-opacity mt-2 ml-3" event_id="{{ $event->id }}" bkm_product="0">
-                                <i class="bi bi-bookmark-fill text-primary" style="font-size: 1.3rem;"></i>
-                            </button>
-                        @endif
-                    @endif
+                    <button class="bookmark-btn send btn border-0 bg-transparent"  data-event-id="{{ $event->id }}" data-bookmark="{{ $bookmark->contains($event->id) ? 1 : 0 }}" data-url="{{ route('bkm_product') }}"> 
+                            @if($bookmark->contains($event->id))
+                                <i class="bi bi-bookmark-fill text-primary" style="font-size:1.3rem;"></i>
+                            @else
+                                <i class="bi bi-bookmark text-secondary" style="font-size:1.3rem;"></i>
+                            @endif
+                    </button>
                 </div>
 
                 <div class="card-body">

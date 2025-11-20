@@ -15,10 +15,12 @@ class DisplayController extends Controller
     public function index() {
         $events = Event::where('is_visible', 0)->paginate(6);
         $user = Auth::user();
+        $bookmark = Auth::user()->is_Bookmark()->get();
 
         return view('top', [
             'events' => $events,
             'user' => $user,
+            'bookmark' => $bookmark,
         ]);
     }
 
@@ -52,6 +54,7 @@ class DisplayController extends Controller
     public function sort(Request $request) {
         $table = Event::query();
         $user = Auth::user();
+        $bookmark = Auth::user()->is_Bookmark()->get();
 
         $word = $request->input('word');
         $format = $request->input('format');
@@ -59,8 +62,10 @@ class DisplayController extends Controller
         $type = $request->input('type');
 
         if (!empty($word)) {
-            $table->where('title', 'LIKE', "%{$word}%")
-            ->orwhere('comment', 'LIKE', "%{$word}%");
+            $table->where(function($q) use ($word) {
+                $q->where('title', 'LIKE', "%{$word}%")
+                    ->orWhere('comment', 'LIKE', "%{$word}%");
+            });
         }
 
         if ($format !== null && $format !== '') {
@@ -74,17 +79,14 @@ class DisplayController extends Controller
         if ($type !== null && $type !== '') {
             $table->where('type', (int)$type);
         }
-
-        $table->where('is_visible', '=', 0);
          
-        $sortevent = $table->get();
+        $sortevent = $table->where('is_visible', 0)->paginate(6)->appends($request->except('page'));
 
         return view('top', [
             'events' => $sortevent,
             'user' => $user,
+            'bookmark' => $bookmark,
         ]);
 
     }
-
-
 }

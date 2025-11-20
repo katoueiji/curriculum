@@ -83,9 +83,11 @@ class UserController extends Controller
     //ブックマーク一覧
     public function bookmark_event() {
         $events = \Auth::user()->bookmark_event()->orderBy('created_at', 'desc')->paginate(6);
+        $bookmark = Auth::user()->is_Bookmark()->get();
 
         return view('bookmark', [
             'event' => $events,
+            'bookmark' => $bookmark,
         ]);
     }
 

@@ -8,11 +8,11 @@ class Reports extends Model
 {
         public function User()
     {
-        return $this->belongsTo('App\User', 'user_id', 'id');
+        return $this->belongsTo(User::class);
     }
 
         public function Event()
     {
-        return $this->belongsTo('App\Event', 'id', 'event_id');
+        return $this->belongsTo(Event::class);
     }
 }

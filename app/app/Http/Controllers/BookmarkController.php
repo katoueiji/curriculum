@@ -4,24 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Bookmark;
+use Illuminate\Support\Facades\Auth;
 
 class BookmarkController extends Controller
 {
-    public function bkm_product(Request $request) {
+    public function toggle(Request $request)
+    {
+        $user = Auth::user();
+        $eventId = $request->input('event_id');
 
+        $bookmark = $user->is_Bookmark()->where('event_id', $eventId)->first();
 
-        if ( $request->input('bkm_product') == 0 ) {
-            Bookmark::create([
-            'event_id' => $request->input('event_id'),
-            'user_id' => auth()->user()->id,
-        ]);
-
-        } elseif ( $request->input('bkm_product') == 1 ) {
-            Bookmark::where('event_id', "=", $request->input('event_id'))
-                ->where('user_id', "=", auth()->user()->id)
-                ->delete();
+        if ($bookmark) {
+            $bookmark->delete();
+            return response()->json(['status' => 'removed']);
+        } else {
+            $user->is_Bookmark()->create(['event_id' => $eventId]);
+            return response()->json(['status' => 'added']);
         }
-        $newStatus = $request->input('bkm_product') == 0 ? 1 : 0;
-        return $newStatus;
     }
 }
